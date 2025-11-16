@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import AuthUser from '../../../auth/AuthUser'
 import CIcon from '@coreui/icons-react'
-import {  cilPencil, cilPlus, cilTrash } from '@coreui/icons'
-import TabsAdd from './TabsAdd' 
+import { cilPencil, cilPlus, cilTrash } from '@coreui/icons'
+import TabsAdd from './TabsAdd'
 import { toast } from 'react-toastify'
+import TabsEdit from './TabsEdit'
 
 export default function TabsList() {
   const { https, http } = AuthUser()
   const [modal, setModal] = useState(false)
+  const [editData, setEditData] = useState({})
   const [tabs, setTabs] = useState([])
 
   // Fetch Tabs List
@@ -27,8 +29,7 @@ export default function TabsList() {
     getTabs()
   }, [])
 
-  const handleDelete = async (id) => { 
-
+  const handleDelete = async (id) => {
     try {
       const res = await http.delete(`/navtabs/delete/${id}`)
 
@@ -86,14 +87,20 @@ export default function TabsList() {
                       )}
                     </td>
                     <td>
-                      <button className="btn btn-sm btn-primary me-2 text-white">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEditData(item)
+                        }}
+                        className="btn btn-sm btn-primary me-2 text-white"
+                      >
                         <CIcon icon={cilPencil} />
                       </button>
                       <button
                         className="btn btn-sm text-white btn-danger"
                         onClick={() => handleDelete(item._id)}
                       >
-                        <CIcon icon={cilTrash}/>
+                        <CIcon icon={cilTrash} />
                       </button>
                     </td>
                   </tr>
@@ -106,6 +113,14 @@ export default function TabsList() {
 
       {/* Modal */}
       {modal && <TabsAdd visible={modal} setVisible={() => setModal(false)} reloadData={getTabs} />}
+      {editData?.navtabs_name && (
+        <TabsEdit
+          editData={editData}
+          visible={editData ? true : false}
+          setVisible={() => setEditData({})}
+          reloadData={getTabs}
+        />
+      )}
     </div>
   )
 }

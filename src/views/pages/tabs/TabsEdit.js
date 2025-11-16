@@ -14,12 +14,8 @@ import {
 import { toast } from 'react-toastify'
 import AuthUser from '../../../auth/AuthUser'
 
-export default function TabsAdd({ visible, setVisible, reloadData }) {
-  const [data, setData] = useState({
-    navtabs_name: '',
-    navtabs_description: '',
-    navtabs_status: 1,
-  })
+export default function TabsEdit({ visible, editData, setVisible, reloadData }) {
+  const [data, setData] = useState(editData)
 
   const [imagePreview, setImagePreview] = useState(null)
   const [imageFile, setImageFile] = useState(null)
@@ -54,13 +50,12 @@ export default function TabsAdd({ visible, setVisible, reloadData }) {
       formData.append('navtabs_name', data.navtabs_name)
       formData.append('navtabs_description', data.navtabs_description)
       formData.append('navtabs_status', data.navtabs_status)
-      
+
       if (imageFile) formData.append('navtabs_image', imageFile)
-        
-        const res = await https.post('/navtabs/store', formData)
-        
-        toast.success(res.data.message || 'Navtabs added successfully!')
- 
+
+      const res = await https.put(`/navtabs/update/${data._id}`, formData)
+
+      toast.success(res.data.message || 'Navtabs added successfully!')
 
       reloadData && reloadData()
 
@@ -89,7 +84,7 @@ export default function TabsAdd({ visible, setVisible, reloadData }) {
   return (
     <CModal
       visible={visible}
-      onClose={() => setVisible(false)}
+      onClose={() => setVisible()}
       onClosed={resetModal}
       alignment="center"
       size="lg"
@@ -97,7 +92,7 @@ export default function TabsAdd({ visible, setVisible, reloadData }) {
       className="shadow-lg rounded-4"
     >
       <CModalHeader className="rounded-top-4">
-        <CModalTitle className="fw-bold fs-4">Add New Navtabs</CModalTitle>
+        <CModalTitle className="fw-bold fs-4">Update New Navtabs</CModalTitle>
       </CModalHeader>
 
       <CModalBody className="p-4">
@@ -133,7 +128,7 @@ export default function TabsAdd({ visible, setVisible, reloadData }) {
             <CFormTextarea
               rows={4}
               placeholder="Describe your navtabs..."
-              value={data.navtabs_description}
+              value={data?.navtabs_description || ""}
               onChange={(e) => setData({ ...data, navtabs_description: e.target.value })}
               className="mb-3"
             />
@@ -141,7 +136,9 @@ export default function TabsAdd({ visible, setVisible, reloadData }) {
             <CFormSwitch
               label="Active Navtabs"
               checked={data.navtabs_status == 1}
-              onChange={(e) => setData({ ...data, navtabs_status: data.navtabs_status == 1 ? 0 : 1 })}
+              onChange={(e) =>
+                setData({ ...data, navtabs_status: data.navtabs_status == 1 ? 0 : 1 })
+              }
             />
           </div>
         </div>
