@@ -9,8 +9,7 @@ import {
   CSidebarFooter,
   CSidebarHeader,
   CSidebarToggler,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+} from '@coreui/react' 
 
 import { AppSidebarNav } from './AppSidebarNav'
 
