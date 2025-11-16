@@ -32,69 +32,29 @@ const _nav = [
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
-  {
-    component: CNavItem,
-    name: 'Customers',
-    to: '/customers',
-    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Customers',
+  //   to: '/customers',
+  //   icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
+  // },
 
-  {
-    component: CNavItem,
-    name: 'Generated Recipes',
-    to: '/generated-recipe',
-    icon: <CIcon icon={cilClock} customClassName="nav-icon" />,
-  },
+   
 
   {
     component: CNavGroup,
-    name: 'Recipe Settings',
+    name: 'Settings',
     to: '',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
-    items: [
+    items: [ 
       {
         component: CNavItem,
-        name: 'Cuisine Categories',
-        to: '/cuisines',
-      },
-      {
-        component: CNavItem,
-        name: 'Meal Types',
-        to: '/mealtype',
-      },
-      {
-        component: CNavItem,
-        name: 'Difficulty Levels',
-        to: '/cookingdifficulty',
-      },
-      {
-        component: CNavItem,
-        name: 'Serving Sizes',
-        to: '/servingcount',
-      },
-      {
-        component: CNavItem,
-        name: 'Preferred Ingredients',
-        to: '/desiredproduct',
-      },
-      {
-        component: CNavItem,
-        name: 'Restricted Ingredients',
-        to: '/unwantedproduct',
-      },
-      {
-        component: CNavItem,
-        name: 'Preparation Time',
-        to: '/preparetime',
+        name: 'Tabs',
+        to: '/tabs',
       },
     ],
   },
-  {
-    component: CNavItem,
-    name: 'Contact Us',
-    to: '/contact',
-    icon: <CIcon icon={cilEnvelopeOpen} customClassName="nav-icon" />, // better suited icon
-  },
+   
 
   {
     component: CNavItem,
