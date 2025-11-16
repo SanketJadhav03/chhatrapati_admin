@@ -44,8 +44,7 @@ export default function TabsList() {
           <table className="table text-center align-middle">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Logo</th>
+                <th>#</th> 
                 <th>Tab Name</th>
                 <th>Status</th>
                 <th>Action</th>
@@ -63,10 +62,7 @@ export default function TabsList() {
                 tabs.map((item, index) => (
                   <tr key={item._id}>
                     <td>{index + 1} 
-                    </td>
-                    <td>
-                        <img src={`${IMG_API_URL}/public/navtabs/${item.navtabs_image}`} alt={`${IMG_API_URL}/public/navtabs/${item.navtabs_image}`}></img>
-                    </td>
+                    </td> 
                     <td className="fw-bold">{item.navtabs_name}</td>
                     <td>
                       {item.navtabs_status == 1 ? (
