@@ -5,14 +5,13 @@ import autoprefixer from 'autoprefixer'
 
 export default defineConfig(() => {
   return {
-    base: './',
     build: {
       outDir: 'dist',
     },
     css: {
       postcss: {
         plugins: [
-          autoprefixer({}), // add options if needed
+          autoprefixer(),
         ],
       },
     },
@@ -31,19 +30,13 @@ export default defineConfig(() => {
     },
     plugins: [react()],
     resolve: {
-      alias: [
-        {
-          find: 'src/',
-          replacement: `${path.resolve(__dirname, 'src')}/`,
-        },
-      ],
-      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.scss'],
+      alias: {
+        'src': path.resolve(__dirname, 'src'),
+      },
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     },
     server: {
       port: 3000,
-      proxy: {
-        // https://vitejs.dev/config/server-options.html
-      },
     },
   }
 })
