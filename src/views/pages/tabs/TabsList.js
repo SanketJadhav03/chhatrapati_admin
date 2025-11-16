@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import AuthUser from '../../../auth/AuthUser'
 import CIcon from '@coreui/icons-react'
-import { cilPlus } from '@coreui/icons'
-import TabsAdd from './TabsAdd'
-import { IMG_API_URL } from '../../../helper/url_helper'
+import {  cilPencil, cilPlus, cilTrash } from '@coreui/icons'
+import TabsAdd from './TabsAdd' 
+import { toast } from 'react-toastify'
 
 export default function TabsList() {
-  const { https } = AuthUser()
+  const { https, http } = AuthUser()
   const [modal, setModal] = useState(false)
   const [tabs, setTabs] = useState([])
 
@@ -27,7 +27,22 @@ export default function TabsList() {
     getTabs()
   }, [])
 
- 
+  const handleDelete = async (id) => { 
+
+    try {
+      const res = await http.delete(`/navtabs/delete/${id}`)
+
+      if (res.data?.status == 1) {
+        toast.success('Tab deleted successfully!')
+        getTabs() // reload list
+      } else {
+        toast.error(res.data?.message || 'Delete failed!')
+      }
+    } catch (error) {
+      console.error('Delete Error:', error)
+      toast.error('Something went wrong!')
+    }
+  }
 
   return (
     <div className="card">
@@ -44,7 +59,7 @@ export default function TabsList() {
           <table className="table text-center align-middle">
             <thead>
               <tr>
-                <th>#</th> 
+                <th>#</th>
                 <th>Tab Name</th>
                 <th>Status</th>
                 <th>Action</th>
@@ -61,8 +76,7 @@ export default function TabsList() {
               ) : (
                 tabs.map((item, index) => (
                   <tr key={item._id}>
-                    <td>{index + 1} 
-                    </td> 
+                    <td>{index + 1}</td>
                     <td className="fw-bold">{item.navtabs_name}</td>
                     <td>
                       {item.navtabs_status == 1 ? (
@@ -72,8 +86,15 @@ export default function TabsList() {
                       )}
                     </td>
                     <td>
-                      <button className="btn btn-sm btn-primary me-2">Edit</button>
-                      <button className="btn btn-sm btn-danger">Delete</button>
+                      <button className="btn btn-sm btn-primary me-2 text-white">
+                        <CIcon icon={cilPencil} />
+                      </button>
+                      <button
+                        className="btn btn-sm text-white btn-danger"
+                        onClick={() => handleDelete(item._id)}
+                      >
+                        <CIcon icon={cilTrash}/>
+                      </button>
                     </td>
                   </tr>
                 ))
@@ -84,9 +105,7 @@ export default function TabsList() {
       </div>
 
       {/* Modal */}
-      {modal && (
-        <TabsAdd visible={modal} setVisible={() => setModal(false)} reloadData={getTabs} />
-      )}
+      {modal && <TabsAdd visible={modal} setVisible={() => setModal(false)} reloadData={getTabs} />}
     </div>
   )
 }
